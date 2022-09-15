@@ -1,0 +1,14 @@
+---
+- name: Linux pipeline
+
+  tasks:
+  - name: install app
+	ansible.builtin.apt:
+	  name: "app"
+	  state: "latest"
+	  update_cache: true
+	
+  - name: install services
+	ansible.builtin.apt:
+	  name: {{ "app"
+	  state: "latest"
