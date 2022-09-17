@@ -1,0 +1,66 @@
+stages:
+  - get_info
+  - test
+  - build
+  - store
+  
+get req:
+  stage: get_info
+  script:
+    - download-dep
+	
+run test1:
+  stage: test
+  script:
+    - run test1
+  only:
+    - branches
+	- /test/
+
+run test2:
+  stage: test
+  script:
+    - run test2
+  retry: 2
+  except:
+    - main
+	
+run test33:
+  stage: test
+  script:
+    - run test3
+  only:
+    - tags
+	- /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+	
+build win app:
+  stage: build
+  script:
+    - build windows app
+  artifacts:
+    paths:
+	  - ../windows/app.exe
+	expires_in: 1 days
+
+build Linux app:
+  stage: build
+  script:
+    - build linux
+  artifacts:
+    paths:
+	  - ../linux/app
+	expires_in: 1 days
+
+store win:
+  stage: store
+  script:
+    - curl -s -v -u "user:pass" --upload-file app.exe "http://myrepo.nexus.ru/windows"
+  only:
+    - tags
+	
+store linux:
+  stage: store
+  script:
+    - curl -s -v -u "user:pass" --upload-file app "http://myrepo.nexus.ru/linux"
+    only:
+    - tags
