@@ -5,10 +5,24 @@
   - name: install app
 	ansible.builtin.apt:
 	  name: "app"
-	  state: "latest"
+	  state: latest
 	  update_cache: true
 	
   - name: install services
 	ansible.builtin.apt:
-	  name: {{ "app"
-	  state: "latest"
+	  name: service-"{{ item }}"
+	  state: latest
+	loop: "{{ range(1, 31, 1)|list}}"
+
+  - name: enable services
+	ansible.builtin.systemd:
+	  name: service-"{{ item }}"
+	  enabled: yes
+	loop: "{{ range(1, 31, 1)|list}}"
+
+  - name: start command 1
+	ansible.builtin.shell: cmd1
+	register: result_cmd1
+
+  - name: start command 2
+	ansible.builtin.shell: cmd2 --arg=result_cmd1.stdout
