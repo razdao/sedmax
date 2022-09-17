@@ -15,7 +15,7 @@ run test1:
     - run test1
   only:
     - branches
-	- /test/
+    - /test/
 
 run test2:
   stage: test
@@ -31,7 +31,7 @@ run test33:
     - run test3
   only:
     - tags
-	- /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
 	
 build win app:
   stage: build
@@ -39,8 +39,8 @@ build win app:
     - build windows app
   artifacts:
     paths:
-	  - ../windows/app.exe
-	expires_in: 1 days
+      - ../windows/app.exe
+    expires_in: 1 days
 
 build Linux app:
   stage: build
@@ -48,8 +48,8 @@ build Linux app:
     - build linux
   artifacts:
     paths:
-	  - ../linux/app
-	expires_in: 1 days
+      - ../linux/app
+    expires_in: 1 days
 
 store win:
   stage: store
